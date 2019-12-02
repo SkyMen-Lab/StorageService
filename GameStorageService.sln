@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStorageService", "GameStorageService\GameStorageService.csproj", "{191B3525-1A4B-4B0E-8E6F-DBECCB75BEBD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{191B3525-1A4B-4B0E-8E6F-DBECCB75BEBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191B3525-1A4B-4B0E-8E6F-DBECCB75BEBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191B3525-1A4B-4B0E-8E6F-DBECCB75BEBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191B3525-1A4B-4B0E-8E6F-DBECCB75BEBD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
