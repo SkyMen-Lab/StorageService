@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace GameStorage.Domain
@@ -19,6 +21,11 @@ namespace GameStorage.Domain
         public async Task Update(TeamGameSummary item)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<TeamGameSummary> GetFromQuery(Expression<Func<TeamGameSummary, bool>> expression)
+        {
+            throw new NotImplementedException();
         }
 
         public TeamGameSummary FindById(int id)

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace GameStorage.Domain
@@ -24,6 +26,11 @@ namespace GameStorage.Domain
         public Team FindById(int id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<Team> GetFromQuery(Expression<Func<Team, bool>> expression)
+        {
+            throw new NotImplementedException();
         }
     }
 }
