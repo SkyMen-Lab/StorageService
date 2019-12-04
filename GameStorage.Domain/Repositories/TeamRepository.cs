@@ -17,12 +17,12 @@ namespace GameStorage.Domain.Repositories
             _configRepository = configRepository;
         }
 
-        public Team? Find(Func<Team, bool> expression)
+        public Team Find(Func<Team, bool> expression)
         {
             return GetListQueryable.Include(t => t.Config).FirstOrDefault(expression);
         }
 
-        public Team? FindByName(string name)
+        public Team FindByName(string name)
         {
             return Find(x => string.Equals(x.Name, name));
         }
@@ -71,7 +71,7 @@ namespace GameStorage.Domain.Repositories
             UpdateDatabase();
         }
 
-        public new Team DeleteRecord(Team team)
+        public Team DeleteRecord(Team team)
         {
             var teamConfig = team.Config;
             _configRepository.Delete(teamConfig);
@@ -82,7 +82,7 @@ namespace GameStorage.Domain.Repositories
             return team;
         }
 
-        public Team? DeleteByName(string name)
+        public Team DeleteByName(string name)
         {
             var team = FindByName(name);
             return team == null ? null : DeleteRecord(team);
