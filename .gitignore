@@ -423,3 +423,5 @@ fabric.properties
 .idea/
 GameStorageService/bin/
 GameStorageService/obj/
+GameStorage.Domain/Migrations/
+*.db
