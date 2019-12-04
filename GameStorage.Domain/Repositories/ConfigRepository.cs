@@ -1,38 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace GameStorage.Domain
+namespace GameStorage.Domain.Repositories
 {
-    public class ConfigRepository : IRepository<Config>
+    public class ConfigRepository : BaseRepository<Config>
     {
-        private IEnumerable<Config> _getList;
 
-        IEnumerable<Config> IRepository<Config>.GetList => _getList;
-        public IEnumerable<Config> GetFromQuery(Expression<Func<Config, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task IRepository<Config>.Add(Config item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        async Task IRepository<Config>.Delete(Config item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        async Task IRepository<Config>.Update(Config item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        Config IRepository<Config>.FindById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        public ConfigRepository(DomainContext context) : base(context) { }
+        
+        //TODO: develop API and data validation
     }
 }
