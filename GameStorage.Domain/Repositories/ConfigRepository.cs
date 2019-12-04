@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using GameStorage.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStorage.Domain.Repositories
@@ -26,17 +27,17 @@ namespace GameStorage.Domain.Repositories
             return config;
         }
 
-        public bool Update(Config config)
+        public bool UpdateRecord(Config config)
         {
             if (IsIpUsed(config.RouterIpAdress)) return false;
-            Update(config);
+            base.Update(config);
             UpdateDatabase();
             return true;
         }
 
-        public void Delete(Config config)
+        public void DeleteRecord(Config config)
         {
-            Delete(config);
+            base.Delete(config);
             UpdateDatabase();
         }
 

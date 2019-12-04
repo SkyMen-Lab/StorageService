@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using GameStorage.Domain.Models;
 
 namespace GameStorage.Domain.Repositories
 {
@@ -43,13 +44,13 @@ namespace GameStorage.Domain.Repositories
             return team;
         }
 
-        public void Update(Team team)
+        public void Updaterecord(Team team)
         {
             base.Update(team);
             UpdateDatabase();
         }
 
-        public new Team Delete(Team team)
+        public new Team DeleteRecord(Team team)
         {
             var teamConfig = team.Config;
             _configRepository.Delete(teamConfig);
@@ -58,10 +59,10 @@ namespace GameStorage.Domain.Repositories
             return team;
         }
 
-        public Team? Delete(string name)
+        public Team? DeleteByName(string name)
         {
             var team = FindByName(name);
-            return team == null ? null : Delete(team);
+            return team == null ? null : DeleteRecord(team);
         }
         
     }

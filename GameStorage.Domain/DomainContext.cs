@@ -1,3 +1,4 @@
+using GameStorage.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStorage.Domain

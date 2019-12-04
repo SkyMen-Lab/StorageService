@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GameStorage.Domain
+﻿namespace GameStorage.Domain.Models
 {
     public class Team
     {

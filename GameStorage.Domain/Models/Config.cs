@@ -1,4 +1,4 @@
-namespace GameStorage.Domain
+namespace GameStorage.Domain.Models
 {
     public class Config
     {
