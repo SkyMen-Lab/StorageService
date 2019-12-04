@@ -11,7 +11,7 @@ namespace GameStorage.Domain.Repositories
     {
         private readonly DomainContext _domainContext;
 
-        public IEnumerable<T> GetList => _domainContext.Set<T>().ToList();
+        public IEnumerable<T> GetList => _domainContext.Set<T>();
         public BaseRepository(DomainContext context)
         {
             _domainContext = context;
@@ -42,9 +42,14 @@ namespace GameStorage.Domain.Repositories
             return _domainContext.Set<T>().Find(id);
         }
         
-        public async Task UpdateDatabase()
+        public async Task UpdateDatabaseAsync()
         {
             await _domainContext.SaveChangesAsync();
+        }
+
+        public void UpdateDatabase()
+        {
+            _domainContext.SaveChanges();
         }
     }
 }
