@@ -25,10 +25,14 @@ namespace GameStorage.Domain
                 .HasIndex(g => g.Code)
                 .IsUnique();
             modelBuilder.Entity<Game>()
-                .HasOne(g => g.TeamOneGameSummary);
+                .HasMany(g => g.TeamGameSummaries)
+                .WithOne(ts => ts.Game)
+                .HasForeignKey(ts => ts.GameId);
             modelBuilder.Entity<Game>()
-                .HasOne(g => g.TeamTwoGameSummary);
-            
+                .HasOne(g => g.Winner)
+                .WithMany(w => w.GamesWon)
+                .HasForeignKey(g => g.WinnerId);
+
             #endregion
 
             #region Team models setup
@@ -38,8 +42,9 @@ namespace GameStorage.Domain
                 .IsUnique();
             modelBuilder.Entity<Team>()
                 .HasOne(t => t.Config)
-                .WithOne(c => c.Team);
-            
+                .WithOne(c => c.Team)
+                .HasForeignKey<Config>(c => c.TeamId);
+
             #endregion
 
             #region Config model setup
@@ -48,13 +53,19 @@ namespace GameStorage.Domain
                 .HasIndex(c => c.RouterIpAddress);
             modelBuilder.Entity<Config>()
                 .HasIndex(c => c.RouterPort);
+            modelBuilder.Entity<Config>()
+                .HasOne(c => c.Team)
+                .WithOne(t => t.Config)
+                .HasForeignKey<Team>(t => t.ConfigId);
 
             #endregion
 
             #region TeamGameSummary
 
             modelBuilder.Entity<TeamGameSummary>()
-                .HasOne(ts => ts.Team);
+                .HasOne(ts => ts.Team)
+                .WithMany(t => t.TeamGameSummaries)
+                .HasForeignKey(ts => ts.TeamId);
             modelBuilder.Entity<TeamGameSummary>()
                 .Property(ts => ts.IsWinner)
                 .HasDefaultValue(false);

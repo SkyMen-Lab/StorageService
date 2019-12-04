@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace GameStorage.Domain.Models
 {
@@ -11,9 +14,8 @@ namespace GameStorage.Domain.Models
         public bool IsStarted { get; set; }
         public bool IsFinished { get; set; }
         [Required]
-        public TeamGameSummary TeamOneGameSummary { get; set; }
-        [Required]
-        public TeamGameSummary TeamTwoGameSummary { get; set; }
+        public List<TeamGameSummary> TeamGameSummaries { get; set; }
+        public int WinnerId { get; set; }
         public Team? Winner { get; set; }
         public DateTime Date { get; set; }
         public int DurationMinutes { get; set; }

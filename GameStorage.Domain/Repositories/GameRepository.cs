@@ -25,14 +25,13 @@ namespace GameStorage.Domain.Repositories
         public Game CreateNew(DateTime date, Team team1, Team team2, int numberOfPlayers1, int numberOfPlayers2,
             int duration, string createdBy = "SkymanOne", bool isStarted = false)
         {
-            TeamGameSummary teamGameSummary1, teamGameSummary2;
             string code = Utils.GenerateRamdomCode(5);
-            teamGameSummary1 = new TeamGameSummary
+            var teamGameSummary1 = new TeamGameSummary
             {
                 Team = team1,
                 NumberOfPlayers = numberOfPlayers1
             };
-            teamGameSummary2 = new TeamGameSummary
+            var teamGameSummary2 = new TeamGameSummary
             {
                 Team = team2,
                 NumberOfPlayers = numberOfPlayers2
@@ -42,8 +41,7 @@ namespace GameStorage.Domain.Repositories
                 Code = code,
                 IsStarted = isStarted,
                 IsFinished = false,
-                TeamOneGameSummary = teamGameSummary1,
-                TeamTwoGameSummary = teamGameSummary2,
+                TeamGameSummaries = new List<TeamGameSummary>{teamGameSummary1, teamGameSummary2},
                 Date = date,
                 DurationMinutes = duration,
                 CreatedBy = createdBy
@@ -61,8 +59,7 @@ namespace GameStorage.Domain.Repositories
 
         public Game DeleteRecord(Game game)
         {
-            _summaryRepository.DeleteRecord(game.TeamOneGameSummary);
-            _summaryRepository.DeleteRecord(game.TeamTwoGameSummary);
+            game.TeamGameSummaries = null;
             Delete(game);
             UpdateDatabase();
             return game;

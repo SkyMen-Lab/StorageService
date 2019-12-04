@@ -11,7 +11,8 @@ namespace GameStorage.Domain.Repositories
     {
         private readonly DomainContext _domainContext;
 
-        public IEnumerable<T> GetList => _domainContext.Set<T>();
+        public IEnumerable<T> GetList => _domainContext.Set<T>().AsEnumerable();
+        public IQueryable<T> GetListQueryable => _domainContext.Set<T>();
         public BaseRepository(DomainContext context)
         {
             _domainContext = context;

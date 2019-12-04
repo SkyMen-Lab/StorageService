@@ -13,8 +13,6 @@ namespace GameStorage.Domain.Repositories
 
         public ConfigRepository(DomainContext context) : base(context) { }
         
-        //TODO: develop API and data validation
-
         public Config CreateNew(string ip, int port, ConnectionType connectionType)
         {
             if (IsIpUsed(ip))

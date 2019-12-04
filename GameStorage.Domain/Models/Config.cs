@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStorage.Domain.Models
 {
@@ -11,6 +12,7 @@ namespace GameStorage.Domain.Models
         public int RouterPort { get; set; }
         [Required]
         public ConnectionType ConnectionType { get; set; }
+        public int TeamId { get; set; }
         [Required]
         public Team Team { get; set; }
     }
