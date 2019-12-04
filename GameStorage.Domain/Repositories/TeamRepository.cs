@@ -45,7 +45,7 @@ namespace GameStorage.Domain.Repositories
 
         public void Update(Team team)
         {
-            Update(team);
+            base.Update(team);
             UpdateDatabase();
         }
 
