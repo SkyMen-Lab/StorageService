@@ -1,11 +1,17 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace GameStorage.Domain.Models
 {
     public class Config
     {
         public int Id { get; set; }
-        public string RouterIpAdress { get; set; }
+        [Required]
+        public string RouterIpAddress { get; set; }
+        [Required]
         public int RouterPort { get; set; }
+        [Required]
         public ConnectionType ConnectionType { get; set; }
+        [Required]
         public Team Team { get; set; }
     }
     
