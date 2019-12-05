@@ -425,3 +425,4 @@ GameStorageService/bin/
 GameStorageService/obj/
 GameStorage.Domain/Migrations/
 *.db
+.DS_Store
