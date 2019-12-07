@@ -27,21 +27,7 @@ namespace GameStorage.Domain.Repositories
                 NumberOfPlayers = numberOfPlayers
             };
             base.Add(summary);
-            UpdateDatabase();
             return summary;
-        }
-
-        public TeamGameSummary DeleteRecord(TeamGameSummary teamGameSummary)
-        {
-            base.Delete(teamGameSummary);
-            UpdateDatabase();
-            return teamGameSummary;
-        }
-
-        public void UpdateRecord(TeamGameSummary summary)
-        {
-            base.Update(summary);
-            UpdateDatabase();
         }
     }
 }

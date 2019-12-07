@@ -25,18 +25,11 @@ namespace GameStorage.Domain.Repositories
             return config;
         }
 
-        public bool UpdateRecord(Config config)
+        public bool CheckAndUpdate(Config config)
         {
             if (IsIpUsed(config.RouterIpAddress)) return false;
             base.Update(config);
-            UpdateDatabase();
             return true;
-        }
-
-        public void DeleteRecord(Config config)
-        {
-            base.Delete(config);
-            UpdateDatabase();
         }
 
         public Config Delete(Team team)
@@ -44,7 +37,6 @@ namespace GameStorage.Domain.Repositories
             var config = GetList.FirstOrDefault(x => x.Team.Equals(team));
             if (config == null) return null;
             base.Delete(config);
-            UpdateDatabase();
             return config;
         }
 

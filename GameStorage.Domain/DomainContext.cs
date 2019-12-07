@@ -41,13 +41,13 @@ namespace GameStorage.Domain
                 .HasIndex(t => t.Code)
                 .IsUnique();
             modelBuilder.Entity<Team>()
-                .HasOne(t => t.Config)
+                .HasOne(t => t.Configs)
                 .WithOne(c => c.Team)
                 .HasForeignKey<Config>(c => c.TeamId);
 
             #endregion
 
-            #region Config model setup
+            #region Configs model setup
 
             modelBuilder.Entity<Config>()
                 .HasIndex(c => c.RouterIpAddress);
@@ -55,7 +55,7 @@ namespace GameStorage.Domain
                 .HasIndex(c => c.RouterPort);
             modelBuilder.Entity<Config>()
                 .HasOne(c => c.Team)
-                .WithOne(t => t.Config)
+                .WithOne(t => t.Configs)
                 .HasForeignKey<Team>(t => t.ConfigId);
 
             #endregion

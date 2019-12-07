@@ -19,7 +19,7 @@ namespace GameStorage.Domain.Repositories
 
         public Team Find(Func<Team, bool> expression)
         {
-            return GetListQueryable.Include(t => t.Config).FirstOrDefault(expression);
+            return GetListQueryable.Include(t => t.Configs).FirstOrDefault(expression);
         }
 
         public Team FindByName(string name)
@@ -27,26 +27,7 @@ namespace GameStorage.Domain.Repositories
             return Find(x => string.Equals(x.Name, name));
         }
 
-        public Team CreateNew(string name, string ip, int port, ConnectionType connectionType)
-        {
-            var existingTeam = FindByName(name);
-            if (existingTeam != null)
-                return null;
-
-            var config = _configRepository.CreateNew(ip, port, connectionType);
-            var team = new Team
-            {
-                Code = Utils.GenerateRamdomCode(5),
-                Name = name,
-                Config = config
-            };
-            
-            base.Add(team);
-            UpdateDatabase();
-            return team;
-        }
-
-        public Team CreatNewWithConfig(string name, Config config)
+        public Team CreateNew(string name, Config config)
         {
             var existingTeam = FindByName(name);
             if (existingTeam != null)
@@ -56,29 +37,20 @@ namespace GameStorage.Domain.Repositories
             {
                 Code = Utils.GenerateRamdomCode(5),
                 Name = name,
-                Config = config,
+                Configs = config, 
                 WinningRate = 0
             };
             
             base.Add(team);
-            UpdateDatabase();
             return team;
-        }
-
-        public void UpdateRecord(Team team)
-        {
-            base.Update(team);
-            UpdateDatabase();
         }
 
         public Team DeleteRecord(Team team)
         {
-            var teamConfig = team.Config;
-            _configRepository.Delete(teamConfig);
+            team.Configs = null;
             team.GamesWon = null;
             team.TeamGameSummaries = null;
             base.Delete(team);
-            UpdateDatabase();
             return team;
         }
 

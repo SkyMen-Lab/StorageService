@@ -14,7 +14,7 @@ namespace GameStorage.Domain.Models
         public double WinningRate { get; set; }
         public int ConfigId { get; set; }
         [Required]
-        public Config Config { get; set; }
+        public Config Configs { get; set; }
         public List<Game> GamesWon { get; set; }
         public List<TeamGameSummary> TeamGameSummaries { get; set; }
     }
