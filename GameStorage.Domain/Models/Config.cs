@@ -12,7 +12,6 @@ namespace GameStorage.Domain.Models
         public int RouterPort { get; set; }
         [Required]
         public ConnectionType ConnectionType { get; set; }
-        public int TeamId { get; set; }
         [Required]
         public Team Team { get; set; }
     }

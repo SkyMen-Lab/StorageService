@@ -10,16 +10,13 @@ namespace GameStorage.Domain.Repositories
 {
     public class TeamRepository : BaseRepository<Team>
     {
-        private ConfigRepository _configRepository;
 
-        public TeamRepository(DomainContext context, ConfigRepository configRepository) : base(context)
-        {
-            _configRepository = configRepository;
-        }
+        public TeamRepository(DomainContext context) : base(context)
+        { }
 
         public Team Find(Func<Team, bool> expression)
         {
-            return GetListQueryable.Include(t => t.Configs).FirstOrDefault(expression);
+            return GetListQueryable.Include(t => t.Config).FirstOrDefault(expression);
         }
 
         public Team FindByName(string name)
@@ -37,7 +34,7 @@ namespace GameStorage.Domain.Repositories
             {
                 Code = Utils.GenerateRamdomCode(5),
                 Name = name,
-                Configs = config, 
+                Config = config, 
                 WinningRate = 0
             };
             
@@ -47,7 +44,7 @@ namespace GameStorage.Domain.Repositories
 
         public Team DeleteRecord(Team team)
         {
-            team.Configs = null;
+            team.Config = null;
             team.GamesWon = null;
             team.TeamGameSummaries = null;
             base.Delete(team);

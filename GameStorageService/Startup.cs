@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +28,15 @@ namespace GameStorageService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            //TODO: connections string
+            //Only for Dev
+            services.AddDbContext<DomainContext>(options => options.UseSqlite("Data Source=dev.db"));
+            services.AddScoped<RepositoryWrapper>();
+            services.AddMvc()
+                .AddNewtonsoftJson(options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
