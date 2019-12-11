@@ -25,10 +25,6 @@ namespace GameStorage.Domain
                 .HasMany(g => g.TeamGameSummaries)
                 .WithOne(ts => ts.Game)
                 .HasForeignKey(ts => ts.GameId);
-            modelBuilder.Entity<Game>()
-                .HasOne(g => g.Winner)
-                .WithMany(w => w.GamesWon)
-                .HasForeignKey(g => g.WinnerId);
 
             #endregion
 

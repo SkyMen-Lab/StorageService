@@ -15,8 +15,7 @@ namespace GameStorage.Domain.Models
         public bool IsFinished { get; set; }
         [Required]
         public List<TeamGameSummary> TeamGameSummaries { get; set; }
-        public int WinnerId { get; set; }
-        public Team Winner { get; set; }
+        public String WinnerName { get; set; } = "Nobody";
         public DateTime Date { get; set; }
         public int DurationMinutes { get; set; }
         //TODO: Replace by User object
