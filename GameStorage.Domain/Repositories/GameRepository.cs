@@ -25,14 +25,12 @@ namespace GameStorage.Domain.Repositories
 
         public Game CreateNew(DateTime date,
             TeamGameSummary teamGameSummary1, TeamGameSummary teamGameSummary2,
-            int duration, string createdBy = "SkymanOne", bool isStarted = false)
+            int duration, string createdBy = "SkymanOne")
         {
             string code = Utils.GenerateRamdomCode(5);
             var game = new Game
             {
                 Code = code,
-                IsStarted = isStarted,
-                IsFinished = false,
                 TeamGameSummaries = new List<TeamGameSummary>{teamGameSummary1, teamGameSummary2},
                 Date = date,
                 DurationMinutes = duration,

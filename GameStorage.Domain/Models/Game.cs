@@ -11,8 +11,9 @@ namespace GameStorage.Domain.Models
         public int Id { get; set; }
         [Required, MaxLength(10)]
         public string Code { get; set; }
-        public bool IsStarted { get; set; }
-        public bool IsFinished { get; set; }
+
+        public GameState State { get; set; } = GameState.Created;
+        
         [Required]
         public List<TeamGameSummary> TeamGameSummaries { get; set; }
         public String WinnerName { get; set; } = "Nobody";
@@ -20,5 +21,12 @@ namespace GameStorage.Domain.Models
         public int DurationMinutes { get; set; }
         //TODO: Replace by User object
         public string CreatedBy { get; set; }
+    }
+
+    public enum GameState
+    {
+        Created,
+        Going,
+        Finished,
     }
 }

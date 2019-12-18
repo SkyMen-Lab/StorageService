@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using GameStorage.Domain;
+using GameStorage.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,10 +23,10 @@ namespace GameStorageService.Controllers
         {
             var games = _repositoryWrapper.Game.GetListQueryable
                 .Include(g => g.TeamGameSummaries)
-                .Where(g => g.IsFinished == false).ToList();
+                .Where(g => g.State == GameState.Created).ToList();
             return Ok(games);
         }
-
+        
         
         [Route("create")]
         public IActionResult Create()
@@ -33,7 +34,7 @@ namespace GameStorageService.Controllers
             var team1 = _repositoryWrapper.TeamRepository.FindById(1);
             var team2 = _repositoryWrapper.TeamRepository.FindById(2);
             //fake data
-            //will be replaces with incoming POST-request from the "clint "
+            //will be replaced with incoming POST-request from the "client"
             var teamGameSummary1 = _repositoryWrapper.TeamGameSummaryRepository.CreateNew(team1, numberOfPlayers: 100);
             var teamGameSummary2 = _repositoryWrapper.TeamGameSummaryRepository.CreateNew(team2, numberOfPlayers: 100);
             var game = _repositoryWrapper.Game.CreateNew(DateTime.Today,
