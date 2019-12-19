@@ -28,7 +28,6 @@ namespace GameStorageService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //TODO: connections string
             //Only for Dev
             services.AddDbContext<DomainContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL"), builder => 

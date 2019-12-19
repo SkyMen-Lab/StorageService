@@ -7,8 +7,8 @@ namespace GameStorage.Domain.Models
     public class Team
     {
         public int Id { get; set; }
-        [Required]
         public string Code { get; set; }
+        [MinLength(2)]
         public string Name { get; set; }
         public int Rank { get; set; }
         public double WinningRate { get; set; }

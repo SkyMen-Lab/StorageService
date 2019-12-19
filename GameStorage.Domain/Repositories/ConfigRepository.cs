@@ -15,7 +15,7 @@ namespace GameStorage.Domain.Repositories
         
         public Config CreateNew(string ip, int port, ConnectionType connectionType)
         {
-            if (IsIpUsed(ip))
+            if (IsIpAndPortUsed(ip, port))
                 return null;
             Config config = new Config
             {
@@ -27,7 +27,7 @@ namespace GameStorage.Domain.Repositories
 
         public bool CheckAndUpdate(Config config)
         {
-            if (IsIpUsed(config.RouterIpAddress)) return false;
+            if (IsIpAndPortUsed(config.RouterIpAddress, config.RouterPort)) return false;
             base.Update(config);
             return true;
         }
@@ -40,9 +40,10 @@ namespace GameStorage.Domain.Repositories
             return config;
         }
 
-        public bool IsIpUsed(string ip)
+        public bool IsIpAndPortUsed(string ip, int port)
         {
-            var existingConfig = GetList.FirstOrDefault(x => string.Equals(x.RouterIpAddress, ip));
+            var existingConfig = GetList.FirstOrDefault(x => string.Equals(x.RouterIpAddress, ip) 
+                && x.RouterPort == port);
             return existingConfig != null;
         }
         

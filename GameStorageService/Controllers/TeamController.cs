@@ -20,35 +20,40 @@ namespace GameStorageService.Controllers
         {
             _repositoryWrapper = repositoryWrapper;
         }
-        // GET
-        //TODO: Validation, authorisation, creating/deleting
+        
         public IEnumerable<Team> Index()
         {
-            //Get the first ten teams depending on the rating
+            //GetTeam the first ten teams depending on the rating
             var teams = _repositoryWrapper.TeamRepository.GetListQueryable
                 .Include(t => t.Config)
                 .ToList();
             return teams;
         }
 
-        [HttpGet]
-        [Route("create/{teamName?}")]
-        public IActionResult Create(string teamName)
+        [HttpPost("create")]
+        public IActionResult Register(Team team)
         {
-            if (_repositoryWrapper.TeamRepository.FindByName(teamName) != null) return Problem();
-            Random rnd = new Random();
-            var config = _repositoryWrapper.ConfigRepository.CreateNew("95.130.97." + rnd.Next(0, 300),
-                rnd.Next(1000, 3000), ConnectionType.UDP);
-            var team = _repositoryWrapper.TeamRepository.CreateNew(teamName, config);
+            var teams = _repositoryWrapper
+                .TeamRepository
+                .FindByExpression(x => x.Name == team.Name || x.Code == team.Code).ToList();
+            var cfg = team.Config;
+            //check whether there are teams with the same names of same router configs
+            if (teams.Count() != 0 ||
+                _repositoryWrapper.ConfigRepository.IsIpAndPortUsed(cfg.RouterIpAddress, cfg.RouterPort))
+                return Conflict();
+            
+            //unix requires special permission for port below 1024 and below
+            if (team.Config.RouterPort < 1025) return BadRequest();
+
+            //create new team
+            var createdTeam = _repositoryWrapper.TeamRepository.CreateNew(team.Name, team.Config);
             _repositoryWrapper.UpdateDB();
-            var objectList = _repositoryWrapper.TeamRepository.GetList.Where(t =>
-                t.Name == teamName).ToList();
-            return Ok(objectList);
+            //redirect to the GET method
+            return CreatedAtAction(nameof(GetTeam), new {teamName = createdTeam.Name },createdTeam);
         }
 
-        [HttpGet]
-        [Route("get/{teamName?}")]
-        public IActionResult Get(string teamName)
+        [HttpGet("{teamName}")]
+        public IActionResult GetTeam(string teamName)
         {
             var ob = _repositoryWrapper.TeamRepository.FindByName(teamName);
             if (ob == null) return NotFound();

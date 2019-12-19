@@ -7,7 +7,6 @@ namespace GameStorage.Domain.Models
     {
         public int Id { get; set; }
         public int TeamId { get; set; }
-        [Required]
         public Team Team { get; set; }
         public bool IsWinner { get; set; }
         public int Score { get; set; }
