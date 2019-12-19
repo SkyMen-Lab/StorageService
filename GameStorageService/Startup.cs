@@ -30,7 +30,9 @@ namespace GameStorageService
             services.AddControllers();
             //TODO: connections string
             //Only for Dev
-            services.AddDbContext<DomainContext>(options => options.UseSqlite("Data Source=dev.db"));
+            services.AddDbContext<DomainContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL"), builder => 
+                    builder.MigrationsAssembly("GameStorageService")));
             services.AddScoped<RepositoryWrapper>();
             services.AddMvc()
                 .AddNewtonsoftJson(options =>

@@ -428,3 +428,4 @@ GameStorage.Domain/Migrations/
 *.db-shm
 *.db-wal
 .DS_Store
+GameStorageService/Migrations/
