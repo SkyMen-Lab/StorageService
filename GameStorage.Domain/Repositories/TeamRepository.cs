@@ -29,6 +29,11 @@ namespace GameStorage.Domain.Repositories
             return FindOneByExpression(x => string.Equals(x.Name, name));
         }
 
+        public Team FindByCode(string code)
+        {
+            return FindOneByExpression(x => string.Equals(x.Code, code));
+        }
+
         public Team CreateNew(string name, Config config)
         {
             var existingTeam = FindByName(name);

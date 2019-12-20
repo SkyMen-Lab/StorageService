@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using GameStorage.Domain.DTOs;
 using GameStorage.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ namespace GameStorage.Domain.Repositories
 
         public ConfigRepository(DomainContext context) : base(context) { }
         
+        //TO BE DELETED
         public Config CreateNew(string ip, int port, ConnectionType connectionType)
         {
             if (IsIpAndPortUsed(ip, port))
@@ -25,10 +27,15 @@ namespace GameStorage.Domain.Repositories
             return config;
         }
 
-        public bool CheckAndUpdate(Config config)
+        public bool CheckObject(Config config)
         {
             if (IsIpAndPortUsed(config.RouterIpAddress, config.RouterPort)) return false;
-            base.Update(config);
+            return true;
+        }
+        
+        public bool CheckObject(ConfigDTO config)
+        {
+            if (IsIpAndPortUsed(config.RouterIpAddress, config.RouterPort)) return false;
             return true;
         }
 

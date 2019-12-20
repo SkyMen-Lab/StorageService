@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using GameStorage.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,8 @@ namespace GameStorageService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAutoMapper(a => a.AddProfile<AutoMapping>(),  
+                typeof(Startup));
             //Only for Dev
             services.AddDbContext<DomainContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL"), builder => 
