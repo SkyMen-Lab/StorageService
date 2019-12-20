@@ -120,5 +120,20 @@ namespace GameStorageService.Controllers
             if (team == null) return NotFound();
             return Ok(team);
         }
+
+        [HttpDelete("delete/{code}")]
+        public ActionResult<Team> Delete(string code)
+        {
+            var team = _repositoryWrapper.TeamRepository.FindByCode(code);
+            if (team == null) return NotFound();
+
+            var config = team.Config;
+
+            _repositoryWrapper.ConfigRepository.Delete(config);
+            _repositoryWrapper.TeamRepository.DeleteRecord(team);
+            _repositoryWrapper.UpdateDB();
+
+            return team;
+        }
     }
 }
