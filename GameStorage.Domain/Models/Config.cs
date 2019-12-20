@@ -7,10 +7,11 @@ namespace GameStorage.Domain.Models
     public class Config
     {
         public int Id { get; set; }
-        [MinLength(7)]
+        [MinLength(7, ErrorMessage = "Invalid IP address")]
         [Required]
         public string RouterIpAddress { get; set; }
         [Required]
+        [Range(1025, 65535, ErrorMessage = "Port is out of the range (1025, 65535")]
         public int RouterPort { get; set; }
         [DefaultValue(ConnectionType.UDP)]
         public ConnectionType ConnectionType { get; set; }
