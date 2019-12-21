@@ -55,6 +55,18 @@ namespace GameStorageService.Controllers
             return CreatedAtAction(nameof(FindGame), new {code = gameCreated.Code}, gameCreated);
         }
 
+        [HttpGet("start/{code}")]
+        public IActionResult StartTheGame(string code)
+        {
+            var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
+            if (game == null) return NotFound();
+            game.State = GameState.Going;
+            
+            _repositoryWrapper.UpdateDB();
+
+            return Ok();
+        }
+
         [HttpGet("{code}")]
         public IActionResult FindGame(string code)
         {
