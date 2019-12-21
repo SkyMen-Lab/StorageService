@@ -14,6 +14,8 @@ namespace GameStorageService.Controllers
     public class GameController : Controller
     {
         private readonly RepositoryWrapper _repositoryWrapper;
+        
+        //TODO: finish the the game via POST request from the GameService
 
         public GameController(RepositoryWrapper repositoryWrapper)
         {
@@ -26,6 +28,7 @@ namespace GameStorageService.Controllers
             var games = _repositoryWrapper.GameRepository.GetListQueryable
                 .Include(g => g.TeamGameSummaries)
                 .ThenInclude(t => t.Team)
+                .OrderByDescending(g => g.Id)
                 .FirstOrDefault(g => g.State == GameState.Created);
             return Ok(games);
         }
@@ -61,6 +64,8 @@ namespace GameStorageService.Controllers
             var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
             if (game == null) return NotFound();
             game.State = GameState.Going;
+            
+            //TODO: send request to the GameService to start the game
             
             _repositoryWrapper.UpdateDB();
 
