@@ -9,17 +9,14 @@ namespace GameStorage.Domain
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamGameSummary> TeamGameSummaries { get; set; }
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public DomainContext(DbContextOptions<DomainContext> options) : base(options)
         {
-            //temporary solution for db
-            // Will be replaced by PostgreSQL in future
-            optionsBuilder.UseSqlite("Data Source=dev.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Game model setup
+            #region GameRepository model setup
 
             modelBuilder.Entity<Game>()
                 .HasIndex(g => g.Code)
@@ -28,10 +25,6 @@ namespace GameStorage.Domain
                 .HasMany(g => g.TeamGameSummaries)
                 .WithOne(ts => ts.Game)
                 .HasForeignKey(ts => ts.GameId);
-            modelBuilder.Entity<Game>()
-                .HasOne(g => g.Winner)
-                .WithMany(w => w.GamesWon)
-                .HasForeignKey(g => g.WinnerId);
 
             #endregion
 
@@ -40,14 +33,10 @@ namespace GameStorage.Domain
             modelBuilder.Entity<Team>()
                 .HasIndex(t => t.Code)
                 .IsUnique();
-            modelBuilder.Entity<Team>()
-                .HasOne(t => t.Config)
-                .WithOne(c => c.Team)
-                .HasForeignKey<Config>(c => c.TeamId);
 
             #endregion
 
-            #region Config model setup
+            #region Configs model setup
 
             modelBuilder.Entity<Config>()
                 .HasIndex(c => c.RouterIpAddress);

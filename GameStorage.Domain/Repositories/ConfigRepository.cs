@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using GameStorage.Domain.DTOs;
 using GameStorage.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,10 @@ namespace GameStorage.Domain.Repositories
 
         public ConfigRepository(DomainContext context) : base(context) { }
         
+        //TO BE DELETED
         public Config CreateNew(string ip, int port, ConnectionType connectionType)
         {
-            if (IsIpUsed(ip))
+            if (IsIpAndPortUsed(ip, port))
                 return null;
             Config config = new Config
             {
@@ -25,18 +27,16 @@ namespace GameStorage.Domain.Repositories
             return config;
         }
 
-        public bool UpdateRecord(Config config)
+        public bool CheckObject(Config config)
         {
-            if (IsIpUsed(config.RouterIpAddress)) return false;
-            base.Update(config);
-            UpdateDatabase();
+            if (IsIpAndPortUsed(config.RouterIpAddress, config.RouterPort)) return false;
             return true;
         }
-
-        public void DeleteRecord(Config config)
+        
+        public bool CheckObject(ConfigDTO config)
         {
-            base.Delete(config);
-            UpdateDatabase();
+            if (IsIpAndPortUsed(config.RouterIpAddress, config.RouterPort)) return false;
+            return true;
         }
 
         public Config Delete(Team team)
@@ -44,13 +44,13 @@ namespace GameStorage.Domain.Repositories
             var config = GetList.FirstOrDefault(x => x.Team.Equals(team));
             if (config == null) return null;
             base.Delete(config);
-            UpdateDatabase();
             return config;
         }
 
-        public bool IsIpUsed(string ip)
+        public bool IsIpAndPortUsed(string ip, int port)
         {
-            var existingConfig = GetList.FirstOrDefault(x => string.Equals(x.RouterIpAddress, ip));
+            var existingConfig = GetList.FirstOrDefault(x => string.Equals(x.RouterIpAddress, ip) 
+                && x.RouterPort == port);
             return existingConfig != null;
         }
         

@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="9.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     </ItemGroup>
 
 </Project>
