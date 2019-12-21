@@ -16,7 +16,7 @@ namespace GameStorage.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Game model setup
+            #region GameRepository model setup
 
             modelBuilder.Entity<Game>()
                 .HasIndex(g => g.Code)

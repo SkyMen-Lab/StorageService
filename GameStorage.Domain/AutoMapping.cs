@@ -10,6 +10,7 @@ namespace GameStorage.Domain
         {
             CreateMap<TeamDTO, Team>();
             CreateMap<ConfigDTO, Config>();
+            CreateMap<SetUpGameDTO, Game>();
         }
     }
 }

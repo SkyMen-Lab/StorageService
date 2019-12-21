@@ -15,7 +15,7 @@ namespace GameStorage.Domain.Models
         public int Score { get; set; }
         public int NumberOfPlayers { get; set; }
         public int GameId { get; set; }
-        [Required(ErrorMessage = "Game object must be specifies")]
+        [Required(ErrorMessage = "GameRepository object must be specifies")]
         public Game Game { get; set; }
     }
 }

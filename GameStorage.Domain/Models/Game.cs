@@ -12,7 +12,7 @@ namespace GameStorage.Domain.Models
         public string Code { get; set; }
         public GameState State { get; set; } = GameState.Created;
         public List<TeamGameSummary> TeamGameSummaries { get; set; }
-        public String WinnerCode { get; set; } = "Nobody";
+        public String WinnerCode { get; set; } = "None";
         public DateTime Date { get; set; }
         [Range(5, 1440, ErrorMessage = "Duration must be within 5 - 1440 minutes")]
         public int DurationMinutes { get; set; }

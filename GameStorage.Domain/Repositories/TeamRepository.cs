@@ -16,7 +16,11 @@ namespace GameStorage.Domain.Repositories
 
         public Team FindOneByExpression(Func<Team, bool> expression)
         {
-            return GetListQueryable.Include(t => t.Config).FirstOrDefault(expression);
+            return GetListQueryable
+                .Include(t => t.Config)
+                .Include(t => t.GamesWon)
+                .Include(t => t.TeamGameSummaries)
+                .FirstOrDefault(expression);
         }
 
         public IEnumerable<Team> FindByExpression(Func<Team, bool> expression)

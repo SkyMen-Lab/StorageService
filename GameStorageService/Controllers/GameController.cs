@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GameStorage.Domain;
+using GameStorage.Domain.DTOs;
 using GameStorage.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,28 +20,47 @@ namespace GameStorageService.Controllers
             _repositoryWrapper = repositoryWrapper;
         }
         
-        // GET
+        // GET the most recent game record
         public IActionResult Index()
         {
-            var games = _repositoryWrapper.Game.GetListQueryable
+            var games = _repositoryWrapper.GameRepository.GetListQueryable
                 .Include(g => g.TeamGameSummaries)
-                .Where(g => g.State == GameState.Created).ToList();
+                .ThenInclude(t => t.Team)
+                .FirstOrDefault(g => g.State == GameState.Created);
             return Ok(games);
         }
         
         
-        [Route("create")]
-        public IActionResult Create()
+        [HttpPost("create")]
+        public IActionResult SetUp(SetUpGameDTO game)
         {
-            var team1 = _repositoryWrapper.TeamRepository.FindById(1);
-            var team2 = _repositoryWrapper.TeamRepository.FindById(2);
-            //fake data
-            //will be replaced with incoming POST-request from the "client"
-            var teamGameSummary1 = _repositoryWrapper.TeamGameSummaryRepository.CreateNew(team1, numberOfPlayers: 100);
-            var teamGameSummary2 = _repositoryWrapper.TeamGameSummaryRepository.CreateNew(team2, numberOfPlayers: 100);
-            var game = _repositoryWrapper.Game.CreateNew(DateTime.Today,
-                teamGameSummary1, teamGameSummary2, 10);
+            var date = game.Date;
+            TimeSpan timeFromNow = date - DateTime.Now;
+            if (timeFromNow.TotalMinutes < 1) return BadRequest();
+
+            Team firstTeam = _repositoryWrapper.TeamRepository.FindByCode(game.FirstTeamCode);
+            if (firstTeam == null) return BadRequest();
+
+            Team secondTeam = _repositoryWrapper.TeamRepository.FindByCode(game.SecondTeamCode);
+            if (secondTeam == null) return BadRequest();
+
+            TeamGameSummary firstTeamGameSummary = _repositoryWrapper.TeamGameSummaryRepository.CreateNew(firstTeam);
+            TeamGameSummary secondTeamGameSummary = _repositoryWrapper.TeamGameSummaryRepository.CreateNew(secondTeam);
+
+            var gameCreated = _repositoryWrapper.GameRepository.CreateNew(game.Date, firstTeamGameSummary,
+                secondTeamGameSummary, game.DurationMinutes);
+            
             _repositoryWrapper.UpdateDB();
+
+            return CreatedAtAction(nameof(FindGame), new {code = gameCreated.Code}, gameCreated);
+        }
+
+        [HttpGet("{code}")]
+        public IActionResult FindGame(string code)
+        {
+            var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
+            if (game == null) return NotFound();
+
             return Ok(game);
         }
     }

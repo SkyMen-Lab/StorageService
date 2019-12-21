@@ -17,7 +17,7 @@ namespace GameStorage.Domain
 
         public ConfigRepository ConfigRepository => _configRepository ??= new ConfigRepository(_context);
 
-        public GameRepository Game => _gameRepository ??= new GameRepository(_context);
+        public GameRepository GameRepository => _gameRepository ??= new GameRepository(_context);
 
         public TeamRepository TeamRepository => _teamRepository  ??= new TeamRepository(_context);
 
