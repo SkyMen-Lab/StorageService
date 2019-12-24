@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using GameStorage.Domain.DTOs;
 using GameStorage.Domain.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace GameStorage.Domain.Repositories
+namespace GameStorage.Infrastructure.Repositories
 {
     public class ConfigRepository : BaseRepository<Config>
     {

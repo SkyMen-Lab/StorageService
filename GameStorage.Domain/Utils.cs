@@ -1,7 +1,6 @@
 using System;
-using System.Text;
 
-namespace GameStorage.Domain
+namespace GameStorage.Infrastructure
 {
     public class Utils
     {

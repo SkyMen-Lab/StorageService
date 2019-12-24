@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStorageService", "GameS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStorage.Domain", "GameStorage.Domain\GameStorage.Domain.csproj", "{0C484A24-E2F8-485D-92AA-3013F9D9898D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStorage.Infrastructure", "GameStorage.Infrastructure\GameStorage.Infrastructure.csproj", "{C1540B84-E755-4D2B-B2B5-B6E2DD5AE778}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0C484A24-E2F8-485D-92AA-3013F9D9898D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C484A24-E2F8-485D-92AA-3013F9D9898D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C484A24-E2F8-485D-92AA-3013F9D9898D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1540B84-E755-4D2B-B2B5-B6E2DD5AE778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1540B84-E755-4D2B-B2B5-B6E2DD5AE778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1540B84-E755-4D2B-B2B5-B6E2DD5AE778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1540B84-E755-4D2B-B2B5-B6E2DD5AE778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

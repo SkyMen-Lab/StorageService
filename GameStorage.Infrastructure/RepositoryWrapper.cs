@@ -1,6 +1,6 @@
-using GameStorage.Domain.Repositories;
+using GameStorage.Infrastructure.Repositories;
 
-namespace GameStorage.Domain
+namespace GameStorage.Infrastructure
 {
     public class RepositoryWrapper
     {

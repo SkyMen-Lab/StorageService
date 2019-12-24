@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace GameStorage.Domain.Repositories
+namespace GameStorage.Infrastructure.Repositories
 {
     public interface IRepository<T> 
     {

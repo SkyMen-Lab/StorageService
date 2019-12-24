@@ -2,7 +2,7 @@ using AutoMapper;
 using GameStorage.Domain.DTOs;
 using GameStorage.Domain.Models;
 
-namespace GameStorage.Domain
+namespace GameStorage.Infrastructure
 {
     public class AutoMapping : Profile
     {

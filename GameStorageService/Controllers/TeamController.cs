@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using AutoMapper;
-using GameStorage.Domain;
+using GameStorage.Infrastructure;
 using GameStorage.Domain.DTOs;
 using GameStorage.Domain.Models;
 using Microsoft.AspNetCore.Http;

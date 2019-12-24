@@ -7,6 +7,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GameStorage.Domain\GameStorage.Domain.csproj" />
+      <ProjectReference Include="..\GameStorage.Infrastructure\GameStorage.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

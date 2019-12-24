@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStorage.Domain.Repositories
+namespace GameStorage.Infrastructure.Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : class
     {

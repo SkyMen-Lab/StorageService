@@ -1,7 +1,7 @@
 using GameStorage.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStorage.Domain
+namespace GameStorage.Infrastructure
 {
     public class DomainContext : DbContext
     {
