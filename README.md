@@ -33,4 +33,8 @@ services.AddDbContext<DomainContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL"), builder => 
                     builder.MigrationsAssembly("GameStorageService")));
 ```
+## Contribution
+All developers are always welcome to contribute to the project and open issues and pull-requests with appropriate messages.
 
+## License
+The code is licensed under the GNU General Public License v2.0
