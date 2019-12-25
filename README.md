@@ -1,5 +1,9 @@
-# GameStorageService - Develop
-[![Build Status](https://travis-ci.com/SkyMen-Lab/GameStorageService.svg?branch=develop)](https://travis-ci.com/SkyMen-Lab/GameStorageService)
+# GameStorageService - ALpha 0.1
+
+| Master                                                                                                                          | Develop                                                                                                                          |
+|---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| **None** | [![Build Status](https://travis-ci.com/SkyMen-Lab/GameStorageService.svg?branch=develop)](https://travis-ci.com/SkyMen-Lab/GameStorageService) |
+
 
 ## Intro
 GameStorageService is a service for manipulating with data in relation database (PostrgeSQL). It uses **.NET Core 3.1** and **ASP.NET Core Web API**
