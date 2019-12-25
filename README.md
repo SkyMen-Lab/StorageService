@@ -1,4 +1,4 @@
-# GameStorageService - ALpha 0.1
+# StorageService - ALpha 0.1
 
 | Master                                                                                                                          | Develop                                                                                                                          |
 |---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -6,7 +6,7 @@
 
 
 ## Intro
-GameStorageService is a service for manipulating with data in relation database (PostrgeSQL). It uses **.NET Core 3.1** and **ASP.NET Core Web API**
+StorageService is a service for manipulating with data in relation database (PostrgeSQL). It uses **.NET Core 3.1** and **ASP.NET Core Web API**
 
 ## Setup
 Before you run the project, make sure you have got PostgreSQL server running, and you have [enforced HTTPS](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1&tabs=visual-studio)
