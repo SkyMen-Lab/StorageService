@@ -33,6 +33,22 @@ namespace StorageService.Controllers
                 .ToList();
             return teams;
         }
+        
+        
+        [HttpGet("list/{page:int}")]
+        public IActionResult GetPageList(int page = 1)
+        {
+            if (page < 1) return BadRequest();
+
+            var list = _repositoryWrapper
+                .TeamRepository
+                .GetListQueryable
+                .Include(t => t.Config)
+                .Include(t => t.GamesWon)
+                .Skip((page - 1) * 10)
+                .Take(10);
+            return Ok(list);
+        }
 
         [HttpPost("create")]
         public IActionResult Register(Team team)

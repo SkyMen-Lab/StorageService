@@ -34,6 +34,20 @@ namespace StorageService.Controllers
         }
         
         
+        [HttpGet("list/{page:int}")]
+        public IActionResult GetPageList(int page = 1)
+        {
+            if (page < 1) return BadRequest();
+
+            var list = _repositoryWrapper
+                .GameRepository
+                .GetListQueryable
+                .Include(x => x.TeamGameSummaries)
+                .Skip((page - 1) * 10)
+                .Take(10);
+            return Ok(list);
+        }
+        
         [HttpPost("create")]
         public IActionResult SetUp(SetUpGameDTO game)
         {
