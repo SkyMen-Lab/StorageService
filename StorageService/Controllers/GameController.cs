@@ -1,8 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Storage.Domain.DTOs;
 using Storage.Domain.Models;
 using Storage.Infrastructure;
@@ -14,12 +22,14 @@ namespace StorageService.Controllers
     public class GameController : Controller
     {
         private readonly RepositoryWrapper _repositoryWrapper;
+        private readonly IMapper _mapper;
         
         //TODO: finish the the game via POST request from the GameService
 
-        public GameController(RepositoryWrapper repositoryWrapper)
+        public GameController(RepositoryWrapper repositoryWrapper, IMapper mapper)
         {
             _repositoryWrapper = repositoryWrapper;
+            _mapper = mapper;
         }
         
         // GET the most recent game record
@@ -72,14 +82,24 @@ namespace StorageService.Controllers
             return CreatedAtAction(nameof(FindGame), new {code = gameCreated.Code}, gameCreated);
         }
 
-        [HttpGet("start/{code}")]
-        public IActionResult StartTheGame(string code)
+        [HttpPost("start")]
+        public async Task<IActionResult> StartTheGame([FromBody]string code)
         {
             var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
             if (game == null) return NotFound();
             game.State = GameState.Going;
-            
-            //TODO: send request to the GameService to start the game
+
+            var startGameDTO = new StartGameDTO();
+            _mapper.Map(game, startGameDTO);
+            _mapper.Map<IList<TeamGameSummary>, IList<StartGameDTO.Team>>(game.TeamGameSummaries, startGameDTO.Teams);
+
+            var message = JsonConvert.SerializeObject(startGameDTO);
+
+            HttpClient client = new HttpClient();
+            var response = await client.PostAsync(new Uri("https://localhost:5001/v1a/create", UriKind.Absolute),
+                new StringContent(message, Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode) return BadRequest();
             
             _repositoryWrapper.UpdateDB();
 

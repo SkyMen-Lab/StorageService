@@ -19,6 +19,8 @@ namespace Storage.Infrastructure.Repositories
         {
             return GetListQueryable
                 .Include(y => y.TeamGameSummaries)
+                .ThenInclude(x => x.Team)
+                .ThenInclude(z => z.Config)
                 .FirstOrDefault(x => string.Equals(x.Code, code));
         }
 
