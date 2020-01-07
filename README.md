@@ -2,7 +2,7 @@
 
 | Master                                                                                                                          | Develop                                                                                                                          |
 |---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| **None** | [![Build Status](https://travis-ci.com/SkyMen-Lab/GameStorageService.svg?branch=develop)](https://travis-ci.com/SkyMen-Lab/GameStorageService) |
+| **None** | [![Build Status](https://travis-ci.com/SkyMen-Lab/StorageService.svg?branch=develop)](https://travis-ci.com/SkyMen-Lab/StorageService) |
 
 
 ## Intro
