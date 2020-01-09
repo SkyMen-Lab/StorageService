@@ -5,6 +5,7 @@ namespace Storage.Domain.Models
 {
     public class Config
     {
+        //TODO: IP validation
         public int Id { get; set; }
         [MinLength(7, ErrorMessage = "Invalid IP address")]
         [Required]

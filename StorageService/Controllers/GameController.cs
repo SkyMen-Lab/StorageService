@@ -39,7 +39,7 @@ namespace StorageService.Controllers
                 .Include(g => g.TeamGameSummaries)
                 .ThenInclude(t => t.Team)
                 .OrderByDescending(g => g.Id)
-                .FirstOrDefault(g => g.State == GameState.Created);
+                .Where(g => g.State == GameState.Created);
             return Ok(games);
         }
         
