@@ -83,8 +83,10 @@ namespace StorageService.Controllers
         }
 
         [HttpPost("start")]
-        public async Task<IActionResult> StartTheGame([FromBody]string code)
+        public async Task<IActionResult> StartTheGame([FromBody]GameCodeDTO gameCodeDTO)
         {
+            var code = gameCodeDTO.Code;
+            
             var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
             if (game == null) return NotFound();
             game.State = GameState.Going;
