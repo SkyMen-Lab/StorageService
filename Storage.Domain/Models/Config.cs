@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Storage.Domain.Customs;
 
 namespace Storage.Domain.Models
 {
@@ -9,6 +10,7 @@ namespace Storage.Domain.Models
         public int Id { get; set; }
         [MinLength(7, ErrorMessage = "Invalid IP address")]
         [Required]
+        [IPValidate]
         public string RouterIpAddress { get; set; }
         [Required]
         [Range(1025, 65535, ErrorMessage = "Port is out of the range (1025, 65535")]
