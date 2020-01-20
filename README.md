@@ -1,1 +1,2 @@
-GameStorageService
+# Initial page
+
