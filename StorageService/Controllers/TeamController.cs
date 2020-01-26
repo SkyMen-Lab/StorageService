@@ -163,10 +163,10 @@ namespace StorageService.Controllers
             var team = _repositoryWrapper.TeamRepository.FindByName(teamName);
             if (team == null)
             {
-                Log.Error("Team name {0} not found",teamName);
+                Log.Error("Team name {0} not found", teamName);
                 return NotFound();
             }
-            Log.Information("Finshed get team by nane request on team {0}.",teamName);
+            Log.Information("Finshed get team by nane request on team {0}.", teamName);
             return Ok(team);
         }
 
@@ -187,11 +187,11 @@ namespace StorageService.Controllers
         [HttpDelete("delete/{code}")]
         public ActionResult<Team> Delete(string code)
         {
-            Log.Warning("Team DELETE request started on team {0}.",code);
+            Log.Warning("Team DELETE request started on team {0}.", code);
             var team = _repositoryWrapper.TeamRepository.FindByCode(code);
-            if (team == null) 
+            if (team == null)
             {
-                Log.Error("Invalid team delete request: Team {0} not found.",code);
+                Log.Error("Invalid team delete request: Team {0} not found.", code);
                 return NotFound();
             }
             var config = team.Config;
@@ -199,7 +199,7 @@ namespace StorageService.Controllers
             _repositoryWrapper.ConfigRepository.Delete(config);
             _repositoryWrapper.TeamRepository.DeleteRecord(team);
             _repositoryWrapper.UpdateDB();
-            Log.Warning("Finished team delete request: Team {0} has been deleted.",code);
+            Log.Warning("Finished team delete request: Team {0} has been deleted.", code);
             return team;
         }
     }
