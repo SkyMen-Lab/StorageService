@@ -149,5 +149,21 @@ namespace StorageService.Controllers
             Log.Information("Finished FindGame request on game {0}", code);
             return Ok(game);
         }
+
+        [HttpDelete("delete/{code}")]
+        public ActionResult<Game> Delete(string code)
+        {
+            var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
+            if (game == null)
+            {
+                return NotFound();
+            }
+            var summary = game.TeamGameSummaries;
+
+            foreach (var x in summary) _repositoryWrapper.TeamGameSummaryRepository.Delete(x);
+            _repositoryWrapper.GameRepository.DeleteRecord(game);
+            _repositoryWrapper.UpdateDB();
+            return game;
+        }
     }
 }
