@@ -150,6 +150,35 @@ namespace StorageService.Controllers
             return Ok(game);
         }
 
+        [HttpPut("update/{code}")]
+        public ActionResult Update(string code, [FromBody]GameDTO updatedGame)
+        {
+            if (code != updatedGame.Code)
+            {
+                Log.Error("GameNotFound:code != updatedGame.Code");
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Object Properties");
+            }
+
+            var gameEntity = _repositoryWrapper.GameRepository.GetListQueryable
+                .AsNoTracking().FirstOrDefault(x => x.Code == code);
+            if (gameEntity == null)
+            {
+                Log.Error("GameNotFound:gameEntity==null");
+                return NotFound();
+            }
+            _mapper.Map(updatedGame, gameEntity);
+
+            _repositoryWrapper.GameRepository.Update(gameEntity);
+            _repositoryWrapper.UpdateDB();
+            Log.Information("Game {0} has been updated.",code);
+            return NoContent();
+        }
+
+
         [HttpDelete("delete/{code}")]
         public ActionResult<Game> Delete(string code)
         {
