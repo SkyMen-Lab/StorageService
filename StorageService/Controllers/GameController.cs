@@ -153,9 +153,11 @@ namespace StorageService.Controllers
         [HttpDelete("delete/{code}")]
         public ActionResult<Game> Delete(string code)
         {
+            Log.Warning("Game DELETE request started on game {0}.", code);
             var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
             if (game == null)
             {
+                Log.Error("Invalid game delete request: Game {0} was not found.", code);
                 return NotFound();
             }
             var summary = game.TeamGameSummaries;
@@ -163,6 +165,7 @@ namespace StorageService.Controllers
             foreach (var x in summary) _repositoryWrapper.TeamGameSummaryRepository.Delete(x);
             _repositoryWrapper.GameRepository.DeleteRecord(game);
             _repositoryWrapper.UpdateDB();
+            Log.Warning("Finished game delete request: Game {0} has been deleted.", code);
             return game;
         }
     }
