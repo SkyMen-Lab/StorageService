@@ -13,6 +13,7 @@ namespace Storage.Infrastructure
             CreateMap<TeamDTO, Team>();
             CreateMap<ConfigDTO, Config>();
             CreateMap<SetUpGameDTO, Game>();
+            CreateMap<GameDTO, Game>();
             CreateMap<TeamGameSummary, StartGameDTO.Team>()
                 .ForMember(x => x.Code,
                     opt => opt.MapFrom(src => src.Team.Code))

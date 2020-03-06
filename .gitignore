@@ -429,3 +429,4 @@ GameStorage.Domain/Migrations/
 *.db-wal
 .DS_Store
 GameStorageService/Migrations/
+StorageService/appsettings.json
