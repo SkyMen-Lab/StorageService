@@ -25,7 +25,6 @@ namespace StorageService.Controllers
         private readonly RepositoryWrapper _repositoryWrapper;
         private readonly IMapper _mapper;
 
-        //TODO: finish the the game via POST request from the GameService
 
         public GameController(RepositoryWrapper repositoryWrapper, IMapper mapper)
         {
@@ -132,7 +131,17 @@ namespace StorageService.Controllers
                 return BadRequest();
             }
             _repositoryWrapper.UpdateDB();
-            Log.Information("Finshed game start request: The Game has been started.");
+            Log.Information("Finished game start request: The Game has been started.");
+            return Ok();
+        }
+
+
+        [HttpPost("finish")]
+        public IActionResult FinishGame([FromBody] FinishGameDTO finishGameDTO)
+        {
+            //TODO: finish the the game via POST request from the GameService
+            
+            Log.Information("Attempt to finish a game with code {}");
             return Ok();
         }
 
@@ -151,11 +160,11 @@ namespace StorageService.Controllers
         }
 
         [HttpPut("update/{code}")]
-        public ActionResult Update(string code, [FromBody]GameDTO updatedGame)
+        public ActionResult Update(string code, [FromBody]GameUpdateDTO updatedGameUpdate)
         {
-            if (code != updatedGame.Code)
+            if (code != updatedGameUpdate.Code)
             {
-                Log.Error("GameNotFound:code != updatedGame.Code");
+                Log.Error("GameNotFound:code != updatedGameUpdate.Code");
                 return NotFound();
             }
             if (!ModelState.IsValid)
@@ -170,7 +179,7 @@ namespace StorageService.Controllers
                 Log.Error("GameNotFound:gameEntity==null");
                 return NotFound();
             }
-            _mapper.Map(updatedGame, gameEntity);
+            _mapper.Map(updatedGameUpdate, gameEntity);
 
             _repositoryWrapper.GameRepository.Update(gameEntity);
             _repositoryWrapper.UpdateDB();
