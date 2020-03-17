@@ -30,6 +30,15 @@ namespace Storage.Infrastructure
                     opt => opt.MapFrom(x => x.TeamGameSummaries));
             
             //TODO: Mapping from FinishedGameDTO to Game + TeamGameSummary
+            CreateMap<FinishGameDTO.Team, TeamGameSummary>()
+                .ForMember(x => x.NumberOfPlayers,
+                    opt => opt.MapFrom(x => x.NumberOfPlayers))
+                .ForMember(x => x.Score,
+                    opt => opt.MapFrom(x => x.Score));
+
+            CreateMap<FinishGameDTO, Game>()
+                .ForMember(x => x.WinnerCode,
+                    opt => opt.MapFrom(x => x.WinnerCode));
         }
     }
 }

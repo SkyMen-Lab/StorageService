@@ -139,9 +139,24 @@ namespace StorageService.Controllers
         [HttpPost("finish")]
         public IActionResult FinishGame([FromBody] FinishGameDTO finishGameDTO)
         {
-            //TODO: finish the the game via POST request from the GameService
-            
+
             Log.Information("Attempt to finish a game with code {}");
+            var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(finishGameDTO.GameCode);
+
+            if (game == null)
+            {
+                Log.Warning($"Game {finishGameDTO.GameCode} has not been found");
+                return BadRequest();
+            }
+
+            //mapping DTO into a model
+            _mapper.Map(finishGameDTO, game);
+            //setting a winner
+            game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).IsWinner = true;
+            //setting game status to FINISHED
+            game.State = GameState.Finished;
+            _repositoryWrapper.UpdateDB();
+            
             return Ok();
         }
 
