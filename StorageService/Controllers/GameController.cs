@@ -153,6 +153,7 @@ namespace StorageService.Controllers
             _mapper.Map(finishGameDTO, game);
             //setting a winner
             game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).IsWinner = true;
+            game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).Team.GamesWon.Add(game);
             //setting game status to FINISHED
             game.State = GameState.Finished;
             _repositoryWrapper.UpdateDB();
