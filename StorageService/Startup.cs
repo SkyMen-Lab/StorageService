@@ -34,7 +34,7 @@ namespace GameStorageService
             //Only for Dev
             services.AddDbContext<DomainContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL"), builder => 
-                    builder.MigrationsAssembly("GameStorageService")));
+                    builder.MigrationsAssembly("StorageService")));
             services.AddScoped<RepositoryWrapper>();
             services.AddMvc()
                 .AddNewtonsoftJson(options =>
