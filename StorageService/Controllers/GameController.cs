@@ -25,7 +25,6 @@ namespace StorageService.Controllers
         private readonly RepositoryWrapper _repositoryWrapper;
         private readonly IMapper _mapper;
 
-        //TODO: finish the the game via POST request from the GameService
 
         public GameController(RepositoryWrapper repositoryWrapper, IMapper mapper)
         {
@@ -132,7 +131,33 @@ namespace StorageService.Controllers
                 return BadRequest();
             }
             _repositoryWrapper.UpdateDB();
-            Log.Information("Finshed game start request: The Game has been started.");
+            Log.Information("Finished game start request: The Game has been started.");
+            return Ok();
+        }
+
+
+        [HttpPost("finish")]
+        public IActionResult FinishGame([FromBody] FinishGameDTO finishGameDTO)
+        {
+
+            Log.Information("Attempt to finish a game with code {}");
+            var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(finishGameDTO.GameCode);
+
+            if (game == null)
+            {
+                Log.Warning($"Game {finishGameDTO.GameCode} has not been found");
+                return BadRequest();
+            }
+
+            //mapping DTO into a model
+            _mapper.Map(finishGameDTO, game);
+            //setting a winner
+            game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).IsWinner = true;
+            game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).Team.GamesWon.Add(game);
+            //setting game status to FINISHED
+            game.State = GameState.Finished;
+            _repositoryWrapper.UpdateDB();
+            
             return Ok();
         }
 
@@ -151,11 +176,11 @@ namespace StorageService.Controllers
         }
 
         [HttpPut("update/{code}")]
-        public ActionResult Update(string code, [FromBody]GameDTO updatedGame)
+        public ActionResult Update(string code, [FromBody]GameUpdateDTO updatedGameUpdate)
         {
-            if (code != updatedGame.Code)
+            if (code != updatedGameUpdate.Code)
             {
-                Log.Error("GameNotFound:code != updatedGame.Code");
+                Log.Error("GameNotFound:code != updatedGameUpdate.Code");
                 return NotFound();
             }
             if (!ModelState.IsValid)
@@ -170,7 +195,7 @@ namespace StorageService.Controllers
                 Log.Error("GameNotFound:gameEntity==null");
                 return NotFound();
             }
-            _mapper.Map(updatedGame, gameEntity);
+            _mapper.Map(updatedGameUpdate, gameEntity);
 
             _repositoryWrapper.GameRepository.Update(gameEntity);
             _repositoryWrapper.UpdateDB();

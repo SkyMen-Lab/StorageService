@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using Storage.Domain.Models;
 
-namespace Storage.Domain.Models
+namespace Storage.Domain.DTOs
 {
-    public class GameDTO
+    public class GameUpdateDTO
     {
         public string Code { get; set; }
         public GameState State { get; set; } = GameState.Created;

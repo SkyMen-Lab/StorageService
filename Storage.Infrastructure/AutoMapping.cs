@@ -13,7 +13,7 @@ namespace Storage.Infrastructure
             CreateMap<TeamDTO, Team>();
             CreateMap<ConfigDTO, Config>();
             CreateMap<SetUpGameDTO, Game>();
-            CreateMap<GameDTO, Game>();
+            CreateMap<GameUpdateDTO, Game>();
             CreateMap<TeamGameSummary, StartGameDTO.Team>()
                 .ForMember(x => x.Code,
                     opt => opt.MapFrom(src => src.Team.Code))
@@ -28,6 +28,17 @@ namespace Storage.Infrastructure
                     opt => opt.MapFrom(x => x.DurationMinutes))
                 .ForMember(x => x.Teams,
                     opt => opt.MapFrom(x => x.TeamGameSummaries));
+            
+            //TODO: Mapping from FinishedGameDTO to Game + TeamGameSummary
+            CreateMap<FinishGameDTO.Team, TeamGameSummary>()
+                .ForMember(x => x.NumberOfPlayers,
+                    opt => opt.MapFrom(x => x.NumberOfPlayers))
+                .ForMember(x => x.Score,
+                    opt => opt.MapFrom(x => x.Score));
+
+            CreateMap<FinishGameDTO, Game>()
+                .ForMember(x => x.WinnerCode,
+                    opt => opt.MapFrom(x => x.WinnerCode));
         }
     }
 }
