@@ -23,6 +23,12 @@
     <None Remove="dev.db-shm"/>
   </ItemGroup>
   <ItemGroup>
+      <Content Update="appsettings*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Storage.Domain\Storage.Domain.csproj"/>
     <ProjectReference Include="..\Storage.Infrastructure\Storage.Infrastructure.csproj"/>
     <ProjectReference Include="..\Storage.Domain\Storage.Domain.csproj"/>
