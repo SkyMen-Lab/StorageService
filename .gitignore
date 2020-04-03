@@ -431,3 +431,5 @@ GameStorage.Domain/Migrations/
 GameStorageService/Migrations/
 StorageService/appsettings.json
 StorageService/Migrations/
+
+.vscode/

@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "GameStorageService": {
+    "StorageService": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/team",
