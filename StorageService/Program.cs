@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.AspNetCore;
-using Serilog.Configuration;
 
-namespace GameStorageService
+namespace StorageService
 {
     public class Program
     {
@@ -35,7 +28,7 @@ namespace GameStorageService
                     {
                         var env = hosting.HostingEnvironment;
                         config.AddJsonFile("appsettings.json", true, true);
-                        config.AddJsonFile("appsettings.{env.EnvironmentName}.json", true, true);
+                        config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
                     });
                 }).UseSerilog((hostingCtx, logger) => {
                     logger

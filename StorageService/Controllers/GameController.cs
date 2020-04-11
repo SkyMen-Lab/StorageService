@@ -15,6 +15,7 @@ using Storage.Domain.DTOs;
 using Storage.Domain.Models;
 using Storage.Infrastructure;
 using Serilog;
+using StorageService.Configs;
 
 namespace StorageService.Controllers
 {
@@ -24,12 +25,14 @@ namespace StorageService.Controllers
     {
         private readonly RepositoryWrapper _repositoryWrapper;
         private readonly IMapper _mapper;
+        private readonly IServiceConnections _serviceConnections;
 
 
-        public GameController(RepositoryWrapper repositoryWrapper, IMapper mapper)
+        public GameController(RepositoryWrapper repositoryWrapper, IMapper mapper, IServiceConnections serviceConnections)
         {
             _repositoryWrapper = repositoryWrapper;
             _mapper = mapper;
+            _serviceConnections = serviceConnections;
         }
 
         // GET the most recent game record
@@ -122,7 +125,7 @@ namespace StorageService.Controllers
             var message = JsonConvert.SerializeObject(startGameDTO);
 
             HttpClient client = new HttpClient();
-            var response = await client.PostAsync(new Uri("https://localhost:5001/v1a/create", UriKind.Absolute),
+            var response = await client.PostAsync(new Uri($"{_serviceConnections.GameServiceAddress}/v1a/create", UriKind.Absolute),
                 new StringContent(message, Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode)
