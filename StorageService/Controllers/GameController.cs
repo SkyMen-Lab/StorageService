@@ -68,7 +68,7 @@ namespace StorageService.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult SetUp(SetUpGameDTO game)
+        public IActionResult SetUp([FromBody]SetUpGameDTO game)
         {
             Log.Information("game creation request started. Date = {0}, FirstTeam = {1}, SecondTeam = {2}, Duration = {3}", game.Date, game.FirstTeamCode, game.SecondTeamCode, game.DurationMinutes);
             var date = game.Date;
@@ -123,43 +123,61 @@ namespace StorageService.Controllers
             _mapper.Map<IList<TeamGameSummary>, IList<StartGameDTO.Team>>(game.TeamGameSummaries, startGameDTO.Teams);
 
             var message = JsonConvert.SerializeObject(startGameDTO);
-
+            
             HttpClient client = new HttpClient();
-            var response = await client.PostAsync(new Uri($"{_serviceConnections.GameServiceAddress}/v1a/create", UriKind.Absolute),
-                new StringContent(message, Encoding.UTF8, "application/json"));
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                Log.Error("Invalid game setup request ({0}): GameService Error.", gameCodeDTO.Code);
-                Log.Error("Probably the game server is busy");
-                return BadRequest();
+                var response = await client.PostAsync(
+                    new Uri($"{_serviceConnections.GameServiceAddress}/v1a/create", UriKind.Absolute),
+                    new StringContent(message, Encoding.UTF8, "application/json"));
+                if (!response.IsSuccessStatusCode)
+                {
+                    Log.Error("Invalid game setup request ({0}): GameService Error.", gameCodeDTO.Code);
+                    Log.Error("Probably the game server is busy");
+                    return BadRequest();
+                }
             }
+            catch (HttpRequestException requestException)
+            {
+                Log.Error("GameService is unreachable", requestException);
+                return StatusCode(500);
+            }
+            
             _repositoryWrapper.UpdateDB();
             Log.Information("Finished game setup request: The Game has been setup.");
             return Ok();
         }
         
         [HttpPost("start")]
-        public async Task<IActionResult> StartTheGame([FromBody] string code)
+        public async Task<IActionResult> StartTheGame([FromBody] GameCodeDTO gameCodeDTO)
         {
-            Log.Information("Trying to start the game", code);
-            if (string.IsNullOrEmpty(code))
+            Log.Information("Trying to start the game", gameCodeDTO.Code);
+            if (string.IsNullOrEmpty(gameCodeDTO.Code))
             {
                 Log.Error("Failed to start the game, the code is null");
                 return BadRequest();
             }
 
             HttpClient client = new HttpClient();
-            var response = await client.PostAsync(
-                new Uri($"{_serviceConnections.GameServiceAddress}/v1a/start", UriKind.Absolute),
-                new StringContent(code, Encoding.UTF8, "application/json"));
-            
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                Log.Error("Failed starting the game");
-                return BadRequest();
+                var message = JsonConvert.SerializeObject(gameCodeDTO);
+                var response = await client.PostAsync(
+                    new Uri($"{_serviceConnections.GameServiceAddress}/v1a/start", UriKind.Absolute),
+                    new StringContent(message, Encoding.UTF8, "application/json"));
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Log.Error("Failed starting the game");
+                    return BadRequest();
+                }
             }
-            
+            catch (HttpRequestException requestException)
+            {
+                Log.Error("Game Service is unreachable", requestException);
+                return StatusCode(500);
+            }
+
             Log.Information("The game has been started successfully");
             return Ok();
         }
