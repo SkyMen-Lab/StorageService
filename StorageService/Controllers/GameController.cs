@@ -104,16 +104,16 @@ namespace StorageService.Controllers
             return CreatedAtAction(nameof(FindGame), new { code = gameCreated.Code }, gameCreated);
         }
 
-        [HttpPost("start")]
-        public async Task<IActionResult> StartTheGame([FromBody]GameCodeDTO gameCodeDTO)
+        [HttpPost("setup")]
+        public async Task<IActionResult> SetupGame([FromBody]GameCodeDTO gameCodeDTO)
         {
-            Log.Information("Game start request started on game {0}", gameCodeDTO.Code);
+            Log.Information("Game setup request started on game {0}", gameCodeDTO.Code);
             var code = gameCodeDTO.Code;
 
             var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(code);
             if (game == null)
             {
-                Log.Error("Invalid game start request: Game {0} not found.", gameCodeDTO.Code);
+                Log.Error("Invalid game setup request: Game {0} not found.", gameCodeDTO.Code);
                 return NotFound();
             }
             game.State = GameState.Going;
@@ -130,11 +130,37 @@ namespace StorageService.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                Log.Error("Invalid game start request ({0}): GameService Error.", gameCodeDTO.Code);
+                Log.Error("Invalid game setup request ({0}): GameService Error.", gameCodeDTO.Code);
+                Log.Error("Probably the game server is busy");
                 return BadRequest();
             }
             _repositoryWrapper.UpdateDB();
-            Log.Information("Finished game start request: The Game has been started.");
+            Log.Information("Finished game setup request: The Game has been setup.");
+            return Ok();
+        }
+        
+        [HttpPost("start")]
+        public async Task<IActionResult> StartTheGame([FromBody] string code)
+        {
+            Log.Information("Trying to start the game", code);
+            if (string.IsNullOrEmpty(code))
+            {
+                Log.Error("Failed to start the game, the code is null");
+                return BadRequest();
+            }
+
+            HttpClient client = new HttpClient();
+            var response = await client.PostAsync(
+                new Uri($"{_serviceConnections.GameServiceAddress}/v1a/start", UriKind.Absolute),
+                new StringContent(code, Encoding.UTF8, "application/json"));
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                Log.Error("Failed starting the game");
+                return BadRequest();
+            }
+            
+            Log.Information("The game has been started successfully");
             return Ok();
         }
 
