@@ -187,7 +187,7 @@ namespace StorageService.Controllers
         public IActionResult FinishGame([FromBody] FinishGameDTO finishGameDTO)
         {
 
-            Log.Information("Attempt to finish a game with code {}");
+            Log.Information($"Attempt to finish a game with code {finishGameDTO.GameCode}");
             var game = _repositoryWrapper.GameRepository.FindByCodeDetailed(finishGameDTO.GameCode);
 
             if (game == null)
@@ -200,7 +200,8 @@ namespace StorageService.Controllers
             _mapper.Map(finishGameDTO, game);
             //setting a winner
             game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).IsWinner = true;
-            game.TeamGameSummaries.Find(x => string.Equals(x.Team.Code, finishGameDTO.WinnerCode)).Team.GamesWon.Add(game);
+            var winner = _repositoryWrapper.TeamRepository.FindOneByExpression(x => string.Equals(x.Code, finishGameDTO.WinnerCode));
+            winner.GamesWon.Add(game);
             //setting game status to FINISHED
             game.State = GameState.Finished;
             _repositoryWrapper.UpdateDB();
